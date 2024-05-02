@@ -6,23 +6,33 @@
   {{ error }}
 </div>
 {% endfor %}
-<div class="row">
-    <div class="col-12 col-md-6 col-lg-4">
-        <h2>結果</h2>
-{% if new_text　%}
-<p>{{ new_text|floatformat|intcomma}}円</p>
+<div class="d-flex">
+    <h2>結果</h2>
+{% if new_text %}
+<strong class="p-2 ml-4">
+    <h5>{{ new_text|floatformat|intcomma}}円</h5>
+</strong>
 {% endif %}
-        <form method="post">
-            {% csrf_token %}
+</div>
+<div class="container mt-2">
+    <form method="post" class="form">
+        {% csrf_token %}
+        <div class="row">
             {% for field in form %}
-            <p>
-                <label>{{ field.label }}</label>
-                <a>{{ field }}</a>
-            
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                </div>
+                {% if forloop.counter|divisibleby:3 and not forloop.last %}
+                    </div><div class="row">
+                {% endif %}
             {% endfor %}
-            <p>
+        </div>
+        <div class="form-group">
             <input type="submit" value="計算" class="btn btn-info" />
-        </form>  
-    </div>
+        </div>
+    </form>
 </div>
 {% endblock %}
